@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "service";
+option java_outer_classname = "BillpayProto";
+
+import "google/protobuf/empty.proto";
+
+package services;
+
+service Billpay {
+  rpc get (google.protobuf.Empty) returns (BillpayReadResponse) {}
+  rpc getByDue (BillpaySearchRequest) returns (BillpayReadResponse) {}
+  rpc pay (BillpaySearchRequest) returns (BillpayReadResponse) {}
+  rpc add (BillpayWriteRequest) returns (BillpayWriteResponse) {}
+}
+
+// The response message when reading the entries, either by read or search
+message BillpayReadResponse {
+  bool isSuccess = 1;
+  repeated Bills bills = 2; // all the hometowns peers entered so far (either all or based on search parameter)
+  string error = 3; // Error message, a String of your choice to show what went wrong if an error occurred -- isSuccess would then be false
+}
+
+
+// The request message to search for classmates in a city
+message BillpaySearchRequest {
+  string vendor = 1;
+  double amount = 2;
+  string due = 3;
+}
+
+
+// The request message adding a new entry to the server
+message BillpayWriteRequest {
+  Bills bills = 1;
+}
+
+// The response message
+message BillpayWriteResponse {
+  bool isSuccess = 1; // true if success, false and error if it did not work for some reason
+  string error = 2; // Error message
+}
+
+message Bills {
+  string vendor = 1; // name of the bill
+  double amount = 2; // the amount left to pay on the bill
+  string due = 3; // the due date of the bill
+}
