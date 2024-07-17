@@ -1,6 +1,6 @@
-# Borys Banaszkiewicz - SER316 Assignment 6
+# Borys Banaszkiewicz - Distributed System using gRPC
 
-# Description
+## Description
 This program is an implementation of a Distributed System using gRPC. There are 2 separate client classes implemented, 
 Client and Client2. Client is not using a Registry and offers Joke, Echo, Encryption, Hometowns, and Billpay services. 
 Joke has the functionality of either asking user to provide a joke or providing the user with a joke. Echo just echo's 
@@ -35,8 +35,6 @@ each in a unique month.
 
 Any required user input has instructions for format and type of input in the command message. (ex: when wanting to see 
 bills due before a certain date, the command output will say "enter in format MM/DD/YYYY").
-
-The requirements which I believe that I fulfilled are listed at the bottom of this document.
 
 ### Sources for Caesar Cipher and XOR Cipher algorithms.
 [Caesar Cipher](https://www.baeldung.com/java-caesar-cipher)   
@@ -92,84 +90,3 @@ Will run a client which will call the services from the node, it talks to the no
 ### gradle runClient2
 
 Will run a client which will call the services through the registry.
-
-
-# REQUIREMENTS FULFILLED
-
-### README Requirements
-- [x] (1 points) A description of your project and a detailed description of what it does and which requirements it
-  fulfills
-- [x] (1 points) An explanation of how we can run the program (hopefully as we want it to run), paste the command we
-  should use into your Readme so we can just copy paste to make sure to use it correctly
-- [x] (2 points) Explain how to "work" with your program, what inputs does it expect when etc.
-- [X] (2 points) Include a list of requirements which you think you fulfilled
-- [x] (4 points) As always a screencast showing your program in action and showing what you accomplished.
-
-### Task 1 Requirements
-- [x] (3 points) Must have: We need to be able to run the service node through "gradle runNode" which should use default
-  arguments, and the client through "gradle runClient" using the correct default values to connect to the started
-  service node!!!! If this does not work we will not run thing, this is already given.
-- [x] (12 points) Implement the first service from the given .proto files. Read through the Protobuf files for more
-  details on how the services are supposed to work.
-- [x] (12 points) Implement the second service from the given .proto files. Read through the Protobuf files for more
-  details on how the services are supposed to work.
-- [x] (4 points) Design your calls and user interaction in a way that they are easy. Remember we have a lot of
-  assignments to grade, design it so it is easy for you and us.
-- [x] (5 points) Your client should let the user decide what they want to do with some nice terminal input easy to
-  understand, e.g. first showing all the available services, then asking the user which service they want to use, then
-  asking for the input the service needs. Good overall client that does not crash.
-- [x] (8 points) Give the option that we can run "gradle runClient -Phost=host -Pport=port -Pauto=1" which will run all
-  requests on its own with input data you hard code (including error cases) and give good output results and also of
-  course shows what was called. This will call the server directly without using any registry. So basically shows your
-  test cases running successfully. See video about Task 1 for more details. Alternative: Instead of writing the auto
-  option described you write Unit Tests similar to what I asked you to do in Assignment 3.1 which calls requests on the
-  server (correct ones and also shows the error cases), these test should run through"gradle test".
-- [x] (3 points) Server and Client should be robust and not crash.  
-
-### Task 2 Requirements
-The service should be something small and fun (or big and fun) that fulfills at least 3 out of the following requirements:
-- [x] Service allows at least 2 different requests
-- [x] Each request needs at least 1 input
-- [x] Response returns different data for different requests
-- [x] Response returns a repeated field
-- [x] Data is held persistent on the server
-
-- [x] (8 points) protocol design,
-- [x] (10 points) client lets user choose this service and ask for needed information,
-- [x] (12 points) server (all this robust, working and well described in your Readme and shown in your screencast).
-
-### Task 3 Requirements
-- [x] MUST: Create a new version of Client called "Client2.java". You should be able to
-   call it through "gradle runClient2" using the same parameters as the task that was
-   already in the given Gradle file for running the original Client. This client (Client2)
-   should have the regOn flag set to true so it can connect to the Registry.
-- [x] Test this: Run your Registry, run your Node with the regOn flag set to true. You
-   should see a println on the Registry side that the service is registered. If you do not,
-   try to figure out what happened (or did not happen). See the video, I show how this
-   can be done.
-- [x]  Now, you should run your Client2 and see if it will find the registered services
-   correctly.
-- [x] If all this works, adapt your client2 so it does not just call the service on the node
-   you provide directly as was done in Task 1 but that the client can choose between
-   all services registered on the Registry (in this case locally it will still just be your
-   services. For testing purposes you can run a couple server nodes and register all of
-   them to your local registry. You do not hard code which server to talk to anymore
-   but use the following workflow:
-  - [x] (2 points) Client contacts Registry to check for available services
-  - [x] (2 points) Client shows all registered services it received from the registry in
-   the terminal and the client can choose one (preferably through numbering)
-  - [x] (You should basically have this already) Based on what the client chooses the
-   terminal should ask for input
-  - [x] (6 points) The request should be sent to one of the available service nodes with
-   the following workflow: 1) client should call the registry again and ask for a
-   Server providing the service the user has chosen 2) the returned server should
-   then be used (so the ip and port), 3) create a new channel for that ip, port and
-   adjust the blockingstub so you can send your request to this Node, 4) return
-   the response in a good way to the client
-  - [x] Make sure that your Client does not crash in case the Server did not respond
-   or crashed. Make it as robust as possible, we take points if it crashes easily.
-- [x] (2 points) We are not going to use the registry but for these points, put your running
-Node with your services online. Post the command for Gradle how the client should be
-started to reach your node (so include the IP and port).
-- [x] (3 points) Test at least one other node that is posted online and provide feedback to that
-person.
